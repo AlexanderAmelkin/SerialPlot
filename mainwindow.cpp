@@ -242,6 +242,12 @@ void MainWindow::onDataReadyASCII()
     {
         QByteArray line = serialPort.readLine();
         line = line.trimmed();
+
+        if (ui->cbEnableTextView->isChecked())
+        {
+            ui->ptTextView->appendPlainText(line);
+        }
+
         auto separatedValues = line.split(',');
 
         if (separatedValues.length() >= int(numOfChannels))

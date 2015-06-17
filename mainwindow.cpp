@@ -143,6 +143,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ptTextView->setMaximumBlockCount(10000);
     QObject::connect(ui->cbEnableTextView, &QCheckBox::toggled,
                      ui->ptTextView, &QWidget::setEnabled);
+    QObject::connect(ui->pbClearTextView, &QPushButton::clicked,
+                     ui->ptTextView, &QPlainTextEdit::clear);
 
     // Init demo mode
     demoCount = 0;

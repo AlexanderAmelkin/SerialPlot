@@ -26,6 +26,7 @@
 #include <QTextStream>
 #include <QtDebug>
 #include <QtEndian>
+#include <QTextCursor>
 #include <qwt_plot.h>
 #include <limits.h>
 #include <cmath>
@@ -532,6 +533,15 @@ template<typename T> double MainWindow::readSampleAs()
 {
     T data;
     this->serialPort.read((char*) &data, sizeof(data));
+
+    // print data in hex format
+    if (ui->cbEnableTextView->isChecked())
+    {
+        QTextCursor cursor(ui->ptTextView->document());
+        cursor.movePosition(QTextCursor::End);
+        QByteArray ba((char*) &data, sizeof(data));
+        cursor.insertText(ba.toHex() + " ");
+    }
 
     if (ui->rbLittleE->isChecked())
     {

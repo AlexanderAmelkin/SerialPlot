@@ -136,6 +136,11 @@ MainWindow::MainWindow(QWidget *parent) :
         selectNumberFormat(NumberFormat_uint8);
     }
 
+    // init text view
+    ui->ptTextView->setEnabled(ui->cbEnableTextView->isChecked());
+    QObject::connect(ui->cbEnableTextView, &QCheckBox::toggled,
+                     ui->ptTextView, &QWidget::setEnabled);
+
     // Init demo mode
     demoCount = 0;
     demoTimer.setInterval(100);

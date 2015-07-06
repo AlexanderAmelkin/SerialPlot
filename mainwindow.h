@@ -22,6 +22,7 @@
 
 #include <QMainWindow>
 #include <QButtonGroup>
+#include <QLabel>
 #include <QString>
 #include <QVector>
 #include <QList>
@@ -31,6 +32,7 @@
 #include <QColor>
 #include <QtGlobal>
 #include <qwt_plot_curve.h>
+#include <qwt_plot_textlabel.h>
 
 #include "portcontrol.h"
 #include "ui_about_dialog.h"
@@ -80,7 +82,7 @@ private:
     DataArray dataX;   // array that simply contains numbers 0..numberOfSamples
     QList<DataArray> channelsData;
 
-    // `data` contains channel specific data
+    // `data` contains i th channels data
     void addChannelData(unsigned int channel, DataArray data);
 
     NumberFormat numberFormat;
@@ -92,10 +94,16 @@ private:
 
     bool skipByteRequested;
 
+    const int SPS_UPDATE_TIMEOUT = 1;  // second
+    QLabel spsLabel;
+    unsigned int sampleCount;
+    QTimer spsTimer;
+
     // demo
     QTimer demoTimer;
     int demoCount;
     bool isDemoRunning();
+    QwtPlotTextLabel demoIndicator;
 
     QColor makeColor(unsigned int channelIndex);
 
@@ -116,6 +124,8 @@ private slots:
     void selectNumberFormat(NumberFormat numberFormatId);
 
     void clearPlot();
+
+    void spsTimerTimeout();
 
     void demoTimerTimeout();
     void enableDemo(bool enabled);

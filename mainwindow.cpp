@@ -147,11 +147,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     // init text view
-    ui->ptTextView->setEnabled(ui->cbEnableTextView->isChecked());
     // TODO: does this work in binary mode? (no new lines)
     ui->ptTextView->setMaximumBlockCount(10000);
-    QObject::connect(ui->cbEnableTextView, &QCheckBox::toggled,
-                     ui->ptTextView, &QWidget::setEnabled);
     QObject::connect(ui->pbClearTextView, &QPushButton::clicked,
                      ui->ptTextView, &QPlainTextEdit::clear);
 

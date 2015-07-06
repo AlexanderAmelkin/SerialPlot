@@ -145,7 +145,6 @@ MainWindow::MainWindow(QWidget *parent) :
         selectNumberFormat(NumberFormat_uint8);
     }
 
-
     // init text view
     ui->ptTextView->setEnabled(ui->cbEnableTextView->isChecked());
     // TODO: does this work in binary mode? (no new lines)
@@ -154,7 +153,6 @@ MainWindow::MainWindow(QWidget *parent) :
                      ui->ptTextView, &QWidget::setEnabled);
     QObject::connect(ui->pbClearTextView, &QPushButton::clicked,
                      ui->ptTextView, &QPlainTextEdit::clear);
-
 
     // Init sps (sample per second) counter
     sampleCount = 0;
@@ -585,6 +583,11 @@ template<typename T> double MainWindow::readSampleAs()
         cursor.movePosition(QTextCursor::End);
         QByteArray ba((char*) &data, sizeof(data));
         cursor.insertText(ba.toHex() + " ");
+        // `53` is selected for minimum width of the main window
+        if (cursor.positionInBlock() >= 53)
+        {
+            cursor.insertText("\n");
+        }
     }
 
     if (ui->rbLittleE->isChecked())

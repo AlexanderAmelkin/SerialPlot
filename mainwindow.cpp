@@ -27,6 +27,7 @@
 #include <QtDebug>
 #include <QtEndian>
 #include <QTextCursor>
+#include <QScrollBar>
 #include <qwt_plot.h>
 #include <limits.h>
 #include <cmath>
@@ -582,11 +583,20 @@ template<typename T> double MainWindow::readSampleAs()
         QTextCursor cursor(ui->ptTextView->document());
         cursor.movePosition(QTextCursor::End);
         QByteArray ba((char*) &data, sizeof(data));
+        QScrollBar* vbar = ui->ptTextView->verticalScrollBar();
+        bool isEnd = (vbar->value() == vbar->maximum());
+
         cursor.insertText(ba.toHex() + " ");
         // `53` is selected for minimum width of the main window
         if (cursor.positionInBlock() >= 53)
         {
             cursor.insertText("\n");
+        }
+
+        // scroll if we were at the end of the display
+        if (isEnd)
+        {
+            vbar->setValue(vbar->maximum());
         }
     }
 

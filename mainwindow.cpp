@@ -577,12 +577,28 @@ template<typename T> double MainWindow::readSampleAs()
     T data;
     this->serialPort.read((char*) &data, sizeof(data));
 
+    printBinarySample((char*) &data, sizeof(data));
+
+    if (ui->rbLittleE->isChecked())
+    {
+        data = qFromLittleEndian(data);
+    }
+    else
+    {
+        data = qFromBigEndian(data);
+    }
+
+    return double(data);
+}
+
+void MainWindow::printBinarySample(char* data, int size)
+{
     // print data in hex format
     if (ui->cbEnableTextView->isChecked())
     {
         QTextCursor cursor(ui->ptTextView->document());
         cursor.movePosition(QTextCursor::End);
-        QByteArray ba((char*) &data, sizeof(data));
+        QByteArray ba(data, size);
         QScrollBar* vbar = ui->ptTextView->verticalScrollBar();
         bool isEnd = (vbar->value() == vbar->maximum());
 
@@ -599,17 +615,6 @@ template<typename T> double MainWindow::readSampleAs()
             vbar->setValue(vbar->maximum());
         }
     }
-
-    if (ui->rbLittleE->isChecked())
-    {
-        data = qFromLittleEndian(data);
-    }
-    else
-    {
-        data = qFromBigEndian(data);
-    }
-
-    return double(data);
 }
 
 bool MainWindow::isDemoRunning()

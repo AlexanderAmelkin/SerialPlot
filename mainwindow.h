@@ -99,6 +99,9 @@ private:
     unsigned int sampleCount;
     QTimer spsTimer;
 
+    // prints to text view if its is enabled
+    void printBinarySample(char* data, int size);
+
     // demo
     QTimer demoTimer;
     int demoCount;

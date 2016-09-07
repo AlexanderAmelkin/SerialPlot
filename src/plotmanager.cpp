@@ -219,7 +219,10 @@ void PlotManager::_addCurve(QwtPlotCurve* curve)
     curves.append(curve);
 
     unsigned index = curves.size()-1;
-    curve->setPen(Plot::makeColor(index));
+    auto pen = QPen(Plot::makeColor(index));
+    pen.setWidth(2);
+    curve->setPen(pen);
+    curve->setRenderHint(QwtPlotItem::RenderAntialiased);
 
     // create the plot for the curve if we are on multi display
     Plot* plot;

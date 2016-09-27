@@ -145,12 +145,14 @@ else()
 endif()
 
 # version number
-set(MAJOR_VERSION 0 CACHE INT "Program major version number.")
-set(MINOR_VERSION 8 CACHE INT "Program minor version number.")
-set(PATCH_VERSION 0 CACHE INT "Program patch version number.")
+# set(MAJOR_VERSION 0 CACHE INT "Program major version number.")
+# set(MINOR_VERSION 8 CACHE INT "Program minor version number.")
+# set(PATCH_VERSION 0 CACHE INT "Program patch version number.")
+
+# get version number from mercurial
+include(version)
 set(VERSION_STRING "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 
-# get revision number from mercurial
 find_program(MERCURIAL hg)
 
 if (MERCURIAL)
